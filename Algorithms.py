@@ -2,9 +2,11 @@ import numpy as np
 import Node
 import Board
 
+# create a node that includes 
 def create_node(start, parent, action, depth):
         return Node.Node(start, parent, action, depth)
 
+# generate the possible moves
 def generate_move(node):
     # return a list of expanded nodes
     possible_moves = []
@@ -24,7 +26,7 @@ class Algorithms:
         self.start_state = start_state
         self.goal_state = goal_state
         
-
+    # BFS = Breadth-first search
     def bfs(self):
         # A list (can be act as a queue) for the nodes
         nodes = []
@@ -41,7 +43,7 @@ class Algorithms:
             
             # take the node from the front of the queue
             node = nodes.pop(0)
-            print(node.state.print_board())
+            # print(node.state.print_board())
             # Append the move we made to moves
             # if this node is the goal, return the moves it took to get here
             if np.array_equal(node.state.get_board(), self.goal_state):
@@ -63,7 +65,8 @@ class Algorithms:
             # Expand the node and add all the expanions to front of the queue.
             nodes.extend( generate_move(node))
 
-    def dfs(self, depth=4):
+    # Dfs = depth-first search
+    def dfs(self, depth=10):
         # A list (can be act as a stack) for the nodes
         nodes = []
 
@@ -76,7 +79,7 @@ class Algorithms:
                 return None
             
             node = nodes.pop(0)
-            print(node.state.print_board())
+            # print(node.state.print_board())
 
             if np.array_equal(node.state.get_board(), self.goal_state):
                 move_list = []
@@ -104,7 +107,7 @@ class Algorithms:
                 # print("nodes depth: ", node.depth)
 
 
-
+    # Iterative deepening depth first search
     def iddfs(self, depth):
         for i in range(depth):
             moves = self.dfs(i)
@@ -113,6 +116,7 @@ class Algorithms:
                 return moves
             # print(moves)
     
+    # Greedy search
     def greedy_search(self):
         
         nodes = []
@@ -161,6 +165,7 @@ class Algorithms:
             nodes = [new_moves[min_dist_index]]
             # print(nodes.state.get_board())
 
+    # manhattan distance
     def heuristic(self, move):
 
         state = move.state.get_board()
